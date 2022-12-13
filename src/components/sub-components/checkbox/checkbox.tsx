@@ -16,7 +16,7 @@ interface Props {
 
 const Checkbox = ({ isLoading, setChecked }: Props) => {
   return (
-    <>
+    <div className='checkboxContainer'>
       <CustomCheckbox
         className='checkbox'
         disabled={isLoading}
@@ -30,7 +30,7 @@ const Checkbox = ({ isLoading, setChecked }: Props) => {
       >
         (Show caught pokemons)
       </label>
-    </>
+    </div>
   );
 };
 

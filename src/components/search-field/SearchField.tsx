@@ -35,9 +35,7 @@ const SearchField = ({
           Release all
         </div>
       </div>
-      <div className='checkboxContainer'>
-        <Checkbox isLoading={isLoading} setChecked={setChecked} />
-      </div>
+      <Checkbox isLoading={isLoading} setChecked={setChecked} />
     </CustomSearchField>
   );
 };

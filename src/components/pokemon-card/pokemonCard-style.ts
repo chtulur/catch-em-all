@@ -56,7 +56,7 @@ const Card = styled.div`
     .cardContent {
       div,
       ul {
-        order: 0;
+        order: 1;
         margin-top: 0.5rem;
       }
 

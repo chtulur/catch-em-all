@@ -1,5 +1,4 @@
-import React from 'react';
-import { PokemonInfo } from '../pokemon-card/PokemonCard';
+import { PokemonInfo } from '../../pokemon-card/PokemonCard';
 import { CustomOuterList, CustomInnerList } from './CustomList-style';
 
 const CustomList = ({
