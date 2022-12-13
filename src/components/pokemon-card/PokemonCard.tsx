@@ -2,13 +2,8 @@ import React, { useEffect, useState } from 'react';
 import Spinner from '../../styles/Spinner';
 import spinnerIcon from '../../images/pngtree-loading-icon-vector-transparent-png-image_5687537.png';
 import { Pokemon } from '../../pages/catchEm/CatchEm';
-import {
-  Button,
-  Card,
-  CustomInnerList,
-  CustomOuterList,
-  PokemonImageContainer,
-} from './pokemonCard-style';
+import { CustomList } from '../';
+import { Button, Card, PokemonImageContainer } from './pokemonCard-style';
 import { getPokemon } from '../../pages/catchEm/api';
 
 interface Ability {
@@ -20,7 +15,7 @@ interface Ability {
   slot: number;
 }
 
-interface PokemonInfo {
+export interface PokemonInfo {
   abilities: Ability[];
   height: number;
   image: string;
@@ -39,7 +34,7 @@ const PokemonCard = ({
   isCaught,
   setPokemonsCaught,
 }: PokemonCardProps) => {
-  const [pokemonInfo, setPokemonInfo] = useState<PokemonInfo>();
+  const [pokemonInfo, setPokemonInfo] = useState<PokemonInfo | undefined>();
   const [isLoading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -83,31 +78,8 @@ const PokemonCard = ({
           )}
         </PokemonImageContainer>
 
-        <CustomOuterList>
-          <li>
-            <b>Name:</b> <span>{pokemonInfo?.name}</span>
-          </li>
-          <li>
-            <b>Height:</b> <span>{pokemonInfo?.height}</span>
-          </li>
-          <li>
-            <b>Weight:</b> <span>{pokemonInfo?.weight}</span>
-          </li>
-          <li>
-            <label>
-              <b>Abilities: </b>
-            </label>
-            <CustomInnerList>
-              {pokemonInfo?.abilities.map(({ is_hidden, ability }, i) => {
-                if (!is_hidden) {
-                  return <li key={i}>{ability.name}</li>;
-                } else {
-                  return null;
-                }
-              })}
-            </CustomInnerList>
-          </li>
-        </CustomOuterList>
+        <CustomList pokemonInfo={pokemonInfo} />
+
         <Button className='catchBtn' onClick={handleClick}>
           {isCaught ? 'Release' : 'Catch'}
         </Button>

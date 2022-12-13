@@ -67,20 +67,6 @@ const Card = styled.div`
   }
 `;
 
-const CustomInnerList = styled.ul`
-  list-style-type: none;
-  padding-left: 1rem;
-`;
-
-const CustomOuterList = styled.ul`
-  list-style-type: none;
-  margin-left: -10px;
-
-  & li {
-    margin-top: 3px;
-  }
-`;
-
 const PokemonImageContainer = styled.div`
   align-items: center;
   display: flex;
@@ -89,10 +75,4 @@ const PokemonImageContainer = styled.div`
   width: fit-content;
 `;
 
-export {
-  Button,
-  Card,
-  CustomInnerList,
-  CustomOuterList,
-  PokemonImageContainer,
-};
+export { Button, Card, PokemonImageContainer };
