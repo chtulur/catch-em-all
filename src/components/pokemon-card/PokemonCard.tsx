@@ -108,7 +108,9 @@ const PokemonCard = ({
             </CustomInnerList>
           </li>
         </CustomOuterList>
-        <Button onClick={handleClick}>{isCaught ? 'Release' : 'Catch'}</Button>
+        <Button className='catchBtn' onClick={handleClick}>
+          {isCaught ? 'Release' : 'Catch'}
+        </Button>
       </div>
     </Card>
   );

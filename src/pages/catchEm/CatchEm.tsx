@@ -23,9 +23,14 @@ export interface Type {
   url: string;
 }
 
+interface AllType {
+  type: string;
+  pokemons: Pokemon[];
+}
+
 const CatchEm: React.FC = () => {
   const [allPokemons, setAllPokemons] = useState<Pokemon[]>([]);
-  const [pokemons, setPokemons] = useState<Pokemon[]>([]);
+  const [allTypes, setAllTypes] = useState<AllType[]>([]);
   const [pokemonsCaught, setPokemonsCaught] = useState<string[]>([]);
   const [types, setTypes] = useState<Type[]>();
 
@@ -39,6 +44,11 @@ const CatchEm: React.FC = () => {
 
   const searchInput = useRef<HTMLInputElement>(null);
 
+  const pokemons = useMemo(() => {
+    return allTypes
+      ?.find(({ type }) => type === selectedType)
+      ?.pokemons.map((pokemon) => pokemon);
+  }, [allTypes, selectedType]);
   /**
    * This useMemo handles the pokemons we can see
    * it checks if we want to see only
@@ -60,7 +70,7 @@ const CatchEm: React.FC = () => {
     } else if (!searchTerm) {
       return pokemons;
     } else {
-      return pokemons.filter(({ name }) =>
+      return pokemons?.filter(({ name }) =>
         name.toLowerCase().includes(searchTerm.toLowerCase())
       );
     }
@@ -92,22 +102,21 @@ const CatchEm: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    if (selectedType) {
-      setLoading(true);
-
-      getType(`${selectedType}`)
-        .then(({ data }) => {
-          const list = data.pokemon.map((pokemon: any) => pokemon.pokemon);
-          setPokemons(list);
-
-          setLoading(false);
+    if (allTypes && allTypes.length === 0 && types && types?.length > 0) {
+      const placeHolderArr: AllType[] = [];
+      Promise.all(types.map((type) => getType(type.name)))
+        .then((dataBatch) => {
+          dataBatch.forEach(({ data }) => {
+            placeHolderArr.push({
+              type: data.name,
+              pokemons: data.pokemon.map((p: any) => p.pokemon),
+            });
+          });
+          return placeHolderArr;
         })
-        .catch((err) => {
-          setLoading(false);
-          console.error(err);
-        });
+        .then((array) => setAllTypes(array));
     }
-  }, [selectedType]);
+  }, [allTypes, types]);
 
   const handleSearch = (): void => {
     setSearchTerm(searchInput.current?.value ?? '');

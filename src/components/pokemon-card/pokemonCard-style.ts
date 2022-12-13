@@ -17,13 +17,9 @@ const Button = styled.div`
 `;
 
 const Card = styled.div`
-  position: relative;
-  top: 2rem;
-  right: 28rem;
-
-  @media only screen and (max-width: 725px) {
-    position: static;
-  }
+  position: fixed;
+  top: 11rem;
+  left: 27rem;
 
   .cardContent {
     align-items: center;
@@ -39,16 +35,34 @@ const Card = styled.div`
     display: flex;
     flex-direction: column;
     height: fit-content;
-    margin: 4.8rem 1rem 1rem 1rem;
     padding: 1rem;
-    position: sticky;
-    top: 1rem;
-    right: 20rem;
     transition: transform 0.5s;
     width: 10rem;
 
     &:hover {
       transform: scale(1.02);
+    }
+  }
+
+  @media only screen and (max-width: 725px) {
+    top: 5rem;
+    left: 22rem;
+  }
+
+  @media only screen and (max-width: 540px) {
+    position: static;
+    margin-top: 2rem;
+
+    .cardContent {
+      div,
+      ul {
+        order: 0;
+        margin-top: 0.5rem;
+      }
+
+      .catchBtn {
+        margin-top: 1rem;
+      }
     }
   }
 `;
