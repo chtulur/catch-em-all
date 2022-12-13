@@ -1,13 +1,12 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import Spinner from '../../styles/Spinner';
-import { PokemonCard } from '../../components';
+import { PokemonCard, SearchField } from '../../components';
 import {
   Checkbox,
   Container,
   CustomContainer,
   CustomSelect,
   NameContainer,
-  SearchField,
   SpinnerContainer,
 } from './catchEm-style';
 import spinnerIcon from '../../images/pngtree-loading-icon-vector-transparent-png-image_5687537.png';
@@ -49,6 +48,7 @@ const CatchEm: React.FC = () => {
       ?.find(({ type }) => type === selectedType)
       ?.pokemons.map((pokemon) => pokemon);
   }, [allTypes, selectedType]);
+
   /**
    * This useMemo handles the pokemons we can see
    * it checks if we want to see only
@@ -67,12 +67,12 @@ const CatchEm: React.FC = () => {
       );
     } else if (isChecked) {
       return allPokemons.filter(({ name }) => pokemonsCaught.includes(name));
-    } else if (!searchTerm) {
-      return pokemons;
-    } else {
+    } else if (searchTerm) {
       return pokemons?.filter(({ name }) =>
         name.toLowerCase().includes(searchTerm.toLowerCase())
       );
+    } else {
+      return pokemons;
     }
   }, [pokemons, searchTerm, pokemonsCaught, isChecked, allPokemons]);
 
@@ -148,40 +148,13 @@ const CatchEm: React.FC = () => {
 
             <br />
 
-            <SearchField>
-              <input
-                ref={searchInput}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter') {
-                    handleSearch();
-                  }
-                }}
-              />
-              <div className='buttons'>
-                <div className='button' onClick={() => handleSearch()}>
-                  Search
-                </div>
-                <div className='button' onClick={() => setPokemonsCaught([])}>
-                  Release all
-                </div>
-              </div>
-              <div className='checkboxContainer'>
-                <Checkbox
-                  className='checkbox'
-                  disabled={isLoading}
-                  id='checkbox'
-                  onChange={(e) => setChecked(e.target.checked)}
-                  type='checkbox'
-                />
-                <label
-                  htmlFor='checkbox'
-                  style={{ marginTop: '5px', paddingLeft: '5px' }}
-                >
-                  (Show caught pokemons)
-                </label>
-              </div>
-            </SearchField>
-
+            <SearchField
+              isLoading={isLoading}
+              handleSearch={handleSearch}
+              searchInput={searchInput}
+              setChecked={setChecked}
+              setPokemonsCaught={setPokemonsCaught}
+            />
             {filteredPokemons &&
               filteredPokemons.map(({ name, url }, i) => (
                 <NameContainer
